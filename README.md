@@ -41,7 +41,7 @@ This project is a full-stack web application built primarily with **Next.js** fo
 | **Styling** | **Tailwind CSS** | Utility-first CSS framework for rapid UI development and responsive design. |
 | **Validation** | **Zod** | Run-time schema validation library for ensuring API input and data integrity. |
 | **Authentication** | **JWT & bcryptjs** | Implements secure, token-based authentication with salted password hashing. |
-| **Icons** | **Lucide React** | A clean, consistent icon library for the user interface. |
+| **Icons** | **Lucide React** | A clean, consistent icon library for the user interface.|
 
 ## Prerequisites
 
