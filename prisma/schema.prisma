@@ -1,0 +1,126 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  loginId   String   @unique
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  responsibleMoves InventoryMove[] @relation("ResponsibleUser")
+
+  @@index([loginId])
+  @@index([email])
+}
+
+model Warehouse {
+  id        String   @id @default(uuid())
+  name      String
+  shortCode String   @unique
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  locations Location[]
+  referenceCounters ReferenceCounter[]
+
+  @@index([shortCode])
+}
+
+model Location {
+  id          String    @id @default(uuid())
+  name        String
+  shortCode   String
+  warehouseId String
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  moveLinesFrom InventoryMoveLine[] @relation("FromLocation")
+  moveLinesTo   InventoryMoveLine[] @relation("ToLocation")
+
+  @@unique([warehouseId, shortCode])
+  @@index([warehouseId])
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  perUnitCost Float    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  moveLines InventoryMoveLine[]
+
+  @@index([name])
+}
+
+// Note: SQLite doesn't support enums, so we use String with constraints
+model InventoryMove {
+  id            String      @id @default(uuid())
+  reference     String      @unique
+  moveType      String      // RECEIPT, DELIVERY, ADJUSTMENT
+  status        String      @default("DRAFT") // DRAFT, WAITING, READY, DONE
+  contact       String?     // Receive From or Delivery Address
+  scheduleDate  DateTime?
+  responsibleId String?
+  responsible   User?       @relation("ResponsibleUser", fields: [responsibleId], references: [id])
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  // Relations
+  moveLines InventoryMoveLine[]
+
+  @@index([reference])
+  @@index([moveType, status])
+  @@index([scheduleDate])
+}
+
+model InventoryMoveLine {
+  id            String        @id @default(uuid())
+  moveId        String
+  move          InventoryMove @relation(fields: [moveId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product       @relation(fields: [productId], references: [id])
+  quantity      Float
+  fromLocationId String?
+  fromLocation  Location?     @relation("FromLocation", fields: [fromLocationId], references: [id])
+  toLocationId  String?
+  toLocation    Location?     @relation("ToLocation", fields: [toLocationId], references: [id])
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([moveId])
+  @@index([productId])
+}
+
+// Reference counter for auto-increment
+model ReferenceCounter {
+  id          String   @id @default(uuid())
+  warehouseId String
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id], onDelete: Cascade)
+  moveType    String   // RECEIPT, DELIVERY, ADJUSTMENT
+  lastNumber  Int      @default(0)
+  updatedAt   DateTime @updatedAt
+
+  @@unique([warehouseId, moveType])
+  @@index([warehouseId, moveType])
+}
+
