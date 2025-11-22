@@ -31,11 +31,14 @@ A full-stack, responsive Warehouse/Inventory Management System built with Next.j
 
 ## Tech Stack
 
-- **Frontend:** Next.js 14 with TypeScript, React, Tailwind CSS
-- **Backend:** Next.js API Routes
-- **Database:** SQLite (development) / PostgreSQL (production) with Prisma ORM
-- **Authentication:** JWT tokens with HTTP-only cookies
-- **Validation:** Zod for schema validation
+Component	Technology	Description
+Framework	Next.js (App Router)	React framework for server-rendered pages and API routes.
+Language	TypeScript	Ensures code quality and developer experience through static type checking.
+Styling	Tailwind CSS	Utility-first CSS framework for rapid UI development and responsive design.
+Database ORM	Prisma	Modern database toolkit (ORM) used for schema definition and database queries.
+Validation	Zod	Run-time schema validation library for ensuring type and data integrity.
+Authentication	JWT & bcryptjs	Implements secure, token-based authentication with salted password hashing.
+Icons	Lucide React	A clean, consistent icon library for the user interface.
 
 ## Prerequisites
 
