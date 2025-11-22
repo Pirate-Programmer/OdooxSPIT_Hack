@@ -197,6 +197,83 @@ npm run db:generate
 1. Make sure database is created first: `npm run db:push`
 2. Then run: `npm run db:seed`
 
+### Prisma generate error: missing query_engine_bg.sqlite.wasm-base64.js
+If you see:
+```
+Cannot find module ... query_engine_bg.sqlite.wasm-base64.js
+```
+Fix (run in project root):
+```bash
+# 1. Remove cached install
+rm -rf node_modules package-lock.json
+# Windows:
+# rmdir /s /q node_modules & del package-lock.json
+
+# 2. Reinstall
+npm install
+
+# 3. Update Prisma packages
+npm install prisma @prisma/client --save-dev
+
+# 4. Regenerate client
+npx prisma generate
+```
+If still broken:
+```bash
+npm cache clean --force
+npm install
+npx prisma generate
+```
+Ensure Node >= 18:
+```bash
+node --version
+```
+(Windows PowerShell) optionally:
+```powershell
+setx PRISMA_CLI_QUERY_ENGINE_TYPE binary
+```
+Then reopen terminal and run `npx prisma generate`.
+
+### Deprecated package.json#prisma warning
+Create `prisma.config.ts` (see below) and remove the prisma field from package.json.
+
+### Prisma error: P1012 Environment variable not found: DATABASE_URL
+If you see:
+```
+Error: Prisma schema validation - (get-config wasm)
+Error code: P1012
+error: Environment variable not found: DATABASE_URL.
+```
+Cause: Using prisma.config.ts stops automatic .env loading unless explicitly configured.
+
+Fix:
+```bash
+# Ensure .env exists at project root (same folder as package.json)
+# It must contain:
+# DATABASE_URL="file:./dev.db"
+# JWT_SECRET="dev-secret-key-12345"
+# NEXTAUTH_URL="http://localhost:3000"
+
+# Re-run after verifying .env
+npx prisma generate
+npm run db:push
+```
+If still failing:
+1. Confirm path: `ls .env` (Windows: `dir .env`)
+2. Open prisma.config.ts and ensure `envFiles: ['.env']` is present.
+3. Temporarily export manually (PowerShell):
+```powershell
+$env:DATABASE_URL="file:./dev.db"
+npx prisma db push
+```
+4. Remove deprecated `prisma` field from package.json (leave config only in prisma.config.ts).
+
+Verification:
+```bash
+node -e "console.log(process.env.DATABASE_URL)"
+```
+Should output `file:./dev.db`.
+
 ---
 
 ## 📁 Project Structure
@@ -220,11 +297,18 @@ FEC_OODO/
 ## 🎯 Quick Command Reference
 
 ```bash
+# Fix missing DATABASE_URL then:
+npx prisma generate
+npm run db:push
+
 # Install dependencies
 npm install
 
+# (Re)install prisma libs
+npm install prisma @prisma/client --save-dev
+
 # Generate Prisma client
-npm run db:generate
+npx prisma generate
 
 # Create database
 npm run db:push
@@ -248,6 +332,9 @@ npm run db:studio
 3. ✅ **Updated All Imports** - Changed from `@prisma/client` to `@/lib/constants`
 4. ✅ **Schema Updated** - Prisma schema now works with SQLite
 5. ✅ **Seed Script** - Creates admin user and sample data automatically
+6. ✅ **P1012 Troubleshooting** - Added troubleshooting for Prisma P1012 error (missing DATABASE_URL)
+- Added guidance for Prisma wasm engine missing error.
+- Added migration step from deprecated package.json prisma config to prisma.config.ts.
 
 ---
 
