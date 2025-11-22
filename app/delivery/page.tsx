@@ -235,6 +235,14 @@ export default function DeliveryPage() {
                           </button>
                         </>
                       )}
+                      {delivery.status === MoveStatus.WAITING && (
+                        <button
+                          onClick={() => handleStatusChange(delivery.id, MoveStatus.READY)}
+                          className="text-blue-600 hover:text-blue-900"
+                        >
+                          Move to Ready
+                        </button>
+                      )}
                       {delivery.status === MoveStatus.READY && (
                         <button
                           onClick={() => handleStatusChange(delivery.id, MoveStatus.DONE)}
@@ -283,6 +291,17 @@ export default function DeliveryPage() {
                         </div>
                       )}
                       <div className="mt-2 flex space-x-2">
+                        {delivery.status === MoveStatus.WAITING && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleStatusChange(delivery.id, MoveStatus.READY)
+                            }}
+                            className="text-xs px-2 py-1 bg-blue-600 text-white rounded"
+                          >
+                            Move to Ready
+                          </button>
+                        )}
                         {delivery.status === MoveStatus.READY && (
                           <button
                             onClick={(e) => {

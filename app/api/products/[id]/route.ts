@@ -63,3 +63,27 @@ export async function PUT(
   }
 }
 
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const auth = requireAuth(request)
+  if (!auth) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  try {
+    await prisma.product.delete({
+      where: { id: params.id },
+    })
+
+    return NextResponse.json({ message: 'Product deleted successfully' })
+  } catch (error) {
+    console.error('Delete product error:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
+

@@ -53,6 +53,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { href: '/dashboard', label: 'Dashboard' },
+    { href: '/products', label: 'Products' },
     { href: '/stock', label: 'Stock' },
     { href: '/receipts', label: 'Receipts' },
     { href: '/delivery', label: 'Delivery' },

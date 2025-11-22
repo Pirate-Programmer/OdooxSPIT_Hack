@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/middleware'
 import { prisma } from '@/lib/prisma'
 import { generateReference } from '@/lib/references'
+import { checkAndUpdateWaitingDeliveries } from '@/lib/delivery-auto-ready'
 import { MoveType, MoveStatus } from '@/lib/constants'
 import { z } from 'zod'
 
@@ -66,6 +67,14 @@ export async function POST(request: NextRequest) {
         },
       },
     })
+
+    // Check if any WAITING deliveries can now be READY after stock adjustment
+    try {
+      await checkAndUpdateWaitingDeliveries()
+    } catch (error) {
+      console.error('Error checking waiting deliveries after stock adjustment:', error)
+      // Don't fail the adjustment if this fails
+    }
 
     return NextResponse.json({ move }, { status: 201 })
   } catch (error) {

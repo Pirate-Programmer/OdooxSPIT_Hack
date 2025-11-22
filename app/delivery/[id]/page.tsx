@@ -94,6 +94,22 @@ export default function DeliveryFormPage() {
         const delivery = deliveryData.delivery
         setDelivery(delivery)
         setStockChecks(deliveryData.stockChecks || [])
+        
+        // If this delivery is WAITING, trigger a check to see if it can move to READY
+        // The check happens when loading the delivery list, but we also do it here
+        if (delivery.status === MoveStatus.WAITING) {
+          // Trigger check by fetching delivery list (which auto-checks)
+          fetch('/api/delivery').then(() => {
+            // Reload this delivery to see if status changed
+            fetch(`/api/delivery/${id}`)
+              .then(res => res.json())
+              .then(data => {
+                if (data.delivery.status !== delivery.status) {
+                  setDelivery(data.delivery)
+                }
+              })
+          })
+        }
         setFormData({
           contact: delivery.contact || '',
           scheduleDate: delivery.scheduleDate
@@ -282,7 +298,15 @@ export default function DeliveryFormPage() {
 
         {delivery && (
           <div className="mb-4 flex items-center space-x-4">
-            <span className="text-sm text-gray-600 dark:text-gray-400">Status: {delivery.status}</span>
+            <span className="text-sm text-gray-600">Status: {delivery.status}</span>
+            {delivery.status === MoveStatus.WAITING && (
+              <button
+                onClick={() => handleStatusChange(MoveStatus.READY)}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              >
+                Move to Ready (Check Stock)
+              </button>
+            )}
             {delivery.status === MoveStatus.READY && (
               <button
                 onClick={() => handleStatusChange(MoveStatus.DONE)}
@@ -437,14 +461,19 @@ export default function DeliveryFormPage() {
                           <input
                             type="number"
                             value={line.quantity}
-                            onChange={(e) =>
-                              updateMoveLine(index, 'quantity', parseFloat(e.target.value) || 0)
-                            }
+                            onChange={(e) => {
+                              const value = e.target.value
+                              // Allow empty input or valid numbers
+                              if (value === '' || !isNaN(parseFloat(value))) {
+                                updateMoveLine(index, 'quantity', value === '' ? 0 : parseFloat(value))
+                              }
+                            }}
                             required
                             min="0"
-                            step="0.01"
+                            step="1"
                             disabled={!isNew && delivery?.status !== MoveStatus.DRAFT}
-                            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            placeholder="0"
                           />
                         </div>
                         {(isNew || delivery?.status === MoveStatus.DRAFT) && (
