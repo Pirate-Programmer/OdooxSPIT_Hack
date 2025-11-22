@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/middleware'
 import { prisma } from '@/lib/prisma'
 import { MoveType, MoveStatus } from '@/lib/constants'
+import { checkAndUpdateWaitingDeliveries } from '@/lib/delivery-auto-ready'
 import { z } from 'zod'
 
 const statusSchema = z.object({
@@ -81,6 +82,16 @@ export async function POST(
         },
       },
     })
+
+    // If receipt is completed (DONE), check if any WAITING deliveries can now be READY
+    if (status === MoveStatus.DONE) {
+      try {
+        await checkAndUpdateWaitingDeliveries()
+      } catch (error) {
+        console.error('Error checking waiting deliveries after receipt completion:', error)
+        // Don't fail the receipt update if this fails
+      }
+    }
 
     return NextResponse.json({ receipt: updated })
   } catch (error) {

@@ -38,8 +38,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-lg">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="text-lg text-gray-900">Loading...</div>
       </div>
     )
   }
@@ -50,6 +50,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { href: '/dashboard', label: 'Dashboard' },
+    { href: '/products', label: 'Products' },
     { href: '/stock', label: 'Stock' },
     { href: '/receipts', label: 'Receipts' },
     { href: '/delivery', label: 'Delivery' },

@@ -45,30 +45,38 @@ export async function POST(
     }
 
     if (delivery.status === MoveStatus.WAITING) {
-      // Check if stock is now available
-      const stockChecks = await Promise.all(
-        delivery.moveLines.map(async (line) => {
-          const stock = await getProductStock(line.productId)
-          return {
-            productId: line.productId,
-            available: stock.freeToUse,
-            required: line.quantity,
-            inStock: stock.freeToUse >= line.quantity,
-          }
-        })
-      )
+      // Allow transition to READY - check stock first
+      if (status === MoveStatus.READY) {
+        // Check if stock is now available
+        const stockChecks = await Promise.all(
+          delivery.moveLines.map(async (line) => {
+            const stock = await getProductStock(line.productId)
+            return {
+              productId: line.productId,
+              available: stock.freeToUse,
+              required: line.quantity,
+              inStock: stock.freeToUse >= line.quantity,
+            }
+          })
+        )
 
-      const allInStock = stockChecks.every((check) => check.inStock)
+        const allInStock = stockChecks.every((check) => check.inStock)
 
-      if (status === MoveStatus.READY && !allInStock) {
+        if (!allInStock) {
+          return NextResponse.json(
+            { 
+              error: 'Stock not available for all products. Please ensure stock is available before moving to READY.', 
+              stockChecks 
+            },
+            { status: 400 }
+          )
+        }
+        // If all in stock, allow the transition
+      } else if (status !== MoveStatus.READY) {
         return NextResponse.json(
-          { error: 'Stock not available for all products', stockChecks },
+          { error: 'Can only move from WAITING to READY' },
           { status: 400 }
         )
-      }
-
-      if (allInStock && status === MoveStatus.READY) {
-        // Auto-update to READY if stock is available
       }
     }
 

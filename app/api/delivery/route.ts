@@ -3,6 +3,7 @@ import { requireAuth } from '@/lib/middleware'
 import { prisma } from '@/lib/prisma'
 import { generateReference } from '@/lib/references'
 import { getProductStock } from '@/lib/inventory'
+import { checkAndUpdateWaitingDeliveries } from '@/lib/delivery-auto-ready'
 import { MoveType, MoveStatus } from '@/lib/constants'
 import { z } from 'zod'
 
@@ -23,6 +24,14 @@ export async function GET(request: NextRequest) {
   const auth = requireAuth(request)
   if (!auth) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // Check and update WAITING deliveries to READY if stock is available
+  try {
+    await checkAndUpdateWaitingDeliveries()
+  } catch (error) {
+    console.error('Error checking waiting deliveries:', error)
+    // Continue even if check fails
   }
 
   const status = request.nextUrl.searchParams.get('status')
