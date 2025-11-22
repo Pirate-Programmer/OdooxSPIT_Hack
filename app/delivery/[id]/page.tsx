@@ -298,11 +298,11 @@ export default function DeliveryFormPage() {
 
         {delivery && (
           <div className="mb-4 flex items-center space-x-4">
-            <span className="text-sm text-gray-600">Status: {delivery.status}</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">Status: {delivery.status}</span>
             {delivery.status === MoveStatus.WAITING && (
               <button
                 onClick={() => handleStatusChange(MoveStatus.READY)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                className="px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
               >
                 Move to Ready (Check Stock)
               </button>
@@ -472,7 +472,7 @@ export default function DeliveryFormPage() {
                             min="0"
                             step="1"
                             disabled={!isNew && delivery?.status !== MoveStatus.DRAFT}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             placeholder="0"
                           />
                         </div>
