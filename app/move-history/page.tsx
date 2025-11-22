@@ -62,28 +62,28 @@ export default function MoveHistoryPage() {
   const getRowColor = (moveLine: MoveLine) => {
     // In-moves: To is a Warehouse Location (green)
     if (moveLine.toLocation && !moveLine.fromLocation) {
-      return 'bg-green-50 hover:bg-green-100'
+      return 'bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30'
     }
     // Out-moves: From is a Warehouse Location (red)
     if (moveLine.fromLocation && !moveLine.toLocation) {
-      return 'bg-red-50 hover:bg-red-100'
+      return 'bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30'
     }
     // Internal moves (both from and to)
     if (moveLine.fromLocation && moveLine.toLocation) {
       if (moveLine.move.moveType === MoveType.RECEIPT) {
-        return 'bg-green-50 hover:bg-green-100'
+        return 'bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30'
       }
       if (moveLine.move.moveType === MoveType.DELIVERY) {
-        return 'bg-red-50 hover:bg-red-100'
+        return 'bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30'
       }
     }
-    return 'bg-white hover:bg-gray-50'
+    return 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700/50'
   }
 
   if (loading) {
     return (
       <Layout>
-        <div className="text-center py-12">Loading...</div>
+        <div className="text-center py-12 text-gray-900 dark:text-gray-100">Loading...</div>
       </Layout>
     )
   }
@@ -91,12 +91,12 @@ export default function MoveHistoryPage() {
   return (
     <Layout>
       <div className="px-4 py-6 sm:px-0">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Move History</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Move History</h1>
 
-        <div className="bg-white p-4 rounded-lg shadow mb-6">
+        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow mb-6 border border-gray-200 dark:border-gray-700 transition-colors">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Search (Reference/Contact)
               </label>
               <input
@@ -104,25 +104,25 @@ export default function MoveHistoryPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search..."
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">From Date</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">From Date</label>
               <input
                 type="date"
                 value={fromDate}
                 onChange={(e) => setFromDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 transition-colors"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">To Date</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">To Date</label>
               <input
                 type="date"
                 value={toDate}
                 onChange={(e) => setToDate(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 transition-colors"
               />
             </div>
             <div className="flex items-end">
@@ -132,7 +132,7 @@ export default function MoveHistoryPage() {
                   setFromDate('')
                   setToDate('')
                 }}
-                className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
               >
                 Clear Filters
               </button>
@@ -140,9 +140,9 @@ export default function MoveHistoryPage() {
           </div>
         </div>
 
-        <div className="bg-white shadow overflow-hidden sm:rounded-md">
-          <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
-            <div className="flex items-center space-x-4 text-xs font-medium text-gray-500 uppercase">
+        <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md border border-gray-200 dark:border-gray-700 transition-colors">
+          <div className="px-4 py-3 bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+            <div className="flex items-center space-x-4 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
               <div className="w-32">Reference</div>
               <div className="w-24">Date</div>
               <div className="flex-1">Product</div>
@@ -152,39 +152,39 @@ export default function MoveHistoryPage() {
               <div className="w-24">Status</div>
             </div>
           </div>
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
             {moveLines.map((moveLine) => (
               <div
                 key={moveLine.id}
                 className={`px-4 py-3 transition-colors ${getRowColor(moveLine)}`}
               >
                 <div className="flex items-center space-x-4 text-sm">
-                  <div className="w-32 font-medium text-indigo-600">
+                  <div className="w-32 font-medium text-primary-600 dark:text-primary-400">
                     {moveLine.move.reference}
                   </div>
-                  <div className="w-24 text-gray-900">
+                  <div className="w-24 text-gray-900 dark:text-gray-100">
                     {new Date(moveLine.move.createdAt).toLocaleDateString()}
                   </div>
-                  <div className="flex-1 text-gray-900">{moveLine.product.name}</div>
-                  <div className="w-24 text-gray-900">{moveLine.quantity.toFixed(2)}</div>
-                  <div className="w-32 text-gray-600">
+                  <div className="flex-1 text-gray-900 dark:text-gray-100">{moveLine.product.name}</div>
+                  <div className="w-24 text-gray-900 dark:text-gray-100">{moveLine.quantity.toFixed(2)}</div>
+                  <div className="w-32 text-gray-600 dark:text-gray-400">
                     {moveLine.fromLocation
                       ? `${moveLine.fromLocation.name} (${moveLine.fromLocation.shortCode})`
                       : '-'}
                   </div>
-                  <div className="w-32 text-gray-600">
+                  <div className="w-32 text-gray-600 dark:text-gray-400">
                     {moveLine.toLocation
                       ? `${moveLine.toLocation.name} (${moveLine.toLocation.shortCode})`
                       : '-'}
                   </div>
                   <div className="w-24">
-                    <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                    <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300">
                       {moveLine.move.moveType}
                     </span>
                   </div>
                 </div>
                 {moveLine.move.contact && (
-                  <div className="mt-1 text-xs text-gray-500">
+                  <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                     Contact: {moveLine.move.contact}
                   </div>
                 )}
@@ -192,19 +192,19 @@ export default function MoveHistoryPage() {
             ))}
           </div>
           {moveLines.length === 0 && (
-            <div className="px-4 py-8 text-center text-gray-500">
+            <div className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
               No move history found
             </div>
           )}
         </div>
 
-        <div className="mt-4 flex items-center space-x-4 text-sm text-gray-600">
+        <div className="mt-4 flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
           <div className="flex items-center">
-            <div className="w-4 h-4 bg-green-100 border border-green-300 rounded mr-2"></div>
+            <div className="w-4 h-4 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded mr-2"></div>
             <span>In-moves (Receipts)</span>
           </div>
           <div className="flex items-center">
-            <div className="w-4 h-4 bg-red-100 border border-red-300 rounded mr-2"></div>
+            <div className="w-4 h-4 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded mr-2"></div>
             <span>Out-moves (Deliveries)</span>
           </div>
         </div>

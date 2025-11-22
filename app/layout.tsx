@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Warehouse Management System',
+  title: 'StockMaster - Inventory Management System',
   description: 'Full-stack Warehouse/Inventory Management System',
 }
 

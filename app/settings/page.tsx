@@ -157,7 +157,7 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <Layout>
-        <div className="text-center py-12">Loading...</div>
+        <div className="text-center py-12 text-gray-900 dark:text-gray-100">Loading...</div>
       </Layout>
     )
   }
@@ -165,26 +165,26 @@ export default function SettingsPage() {
   return (
     <Layout>
       <div className="px-4 py-6 sm:px-0">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Settings</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Settings</h1>
 
-        <div className="border-b border-gray-200">
+        <div className="border-b border-gray-200 dark:border-gray-700">
           <nav className="-mb-px flex space-x-8">
             <button
               onClick={() => setActiveTab('warehouses')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'warehouses'
-                  ? 'border-indigo-500 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-primary-500 text-primary-600 dark:text-primary-400 dark:border-primary-400'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
             >
               Warehouses
             </button>
             <button
               onClick={() => setActiveTab('locations')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+              className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
                 activeTab === 'locations'
-                  ? 'border-indigo-500 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-primary-500 text-primary-600 dark:text-primary-400 dark:border-primary-400'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
             >
               Locations
@@ -201,52 +201,52 @@ export default function SettingsPage() {
                   setEditingWarehouse(null)
                   setShowWarehouseForm(true)
                 }}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                className="px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-md hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors"
               >
                 Add Warehouse
               </button>
             </div>
 
             {showWarehouseForm && (
-              <div className="bg-white p-6 rounded-lg shadow mb-4">
-                <h3 className="text-lg font-medium mb-4">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-4 border border-gray-200 dark:border-gray-700 transition-colors">
+                <h3 className="text-lg font-medium mb-4 text-gray-900 dark:text-white">
                   {editingWarehouse ? 'Edit Warehouse' : 'New Warehouse'}
                 </h3>
                 <form onSubmit={handleWarehouseSubmit}>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Name</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
                       <input
                         type="text"
                         name="name"
                         required
                         defaultValue={editingWarehouse?.name}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Short Code</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Short Code</label>
                       <input
                         type="text"
                         name="shortCode"
                         required
                         defaultValue={editingWarehouse?.shortCode}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Address</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Address</label>
                       <textarea
                         name="address"
                         defaultValue={editingWarehouse?.address || ''}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 transition-colors"
                         rows={3}
                       />
                     </div>
                     <div className="flex space-x-2">
                       <button
                         type="submit"
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                        className="px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-md hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors"
                       >
                         Save
                       </button>
@@ -256,7 +256,7 @@ export default function SettingsPage() {
                           setShowWarehouseForm(false)
                           setEditingWarehouse(null)
                         }}
-                        className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                        className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                       >
                         Cancel
                       </button>
@@ -266,24 +266,24 @@ export default function SettingsPage() {
               </div>
             )}
 
-            <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <ul className="divide-y divide-gray-200">
+            <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md border border-gray-200 dark:border-gray-700 transition-colors">
+              <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                 {warehouses.map((warehouse) => (
-                  <li key={warehouse.id}>
+                  <li key={warehouse.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                     <div className="px-4 py-4 sm:px-6 flex justify-between items-center">
                       <div>
                         <div className="flex items-center">
-                          <p className="text-sm font-medium text-indigo-600 truncate">
+                          <p className="text-sm font-medium text-primary-600 dark:text-primary-400 truncate">
                             {warehouse.name}
                           </p>
-                          <span className="ml-2 text-sm text-gray-500">
+                          <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
                             ({warehouse.shortCode})
                           </span>
                         </div>
                         {warehouse.address && (
-                          <p className="mt-1 text-sm text-gray-500">{warehouse.address}</p>
+                          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{warehouse.address}</p>
                         )}
-                        <p className="mt-1 text-sm text-gray-500">
+                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                           {warehouse.locations?.length || 0} locations
                         </p>
                       </div>
@@ -293,13 +293,13 @@ export default function SettingsPage() {
                             setEditingWarehouse(warehouse)
                             setShowWarehouseForm(true)
                           }}
-                          className="text-indigo-600 hover:text-indigo-900"
+                          className="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 transition-colors"
                         >
                           Edit
                         </button>
                         <button
                           onClick={() => handleDeleteWarehouse(warehouse.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition-colors"
                         >
                           Delete
                         </button>
@@ -321,26 +321,26 @@ export default function SettingsPage() {
                   setEditingLocation(null)
                   setShowLocationForm(true)
                 }}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                className="px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-md hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors"
               >
                 Add Location
               </button>
             </div>
 
             {showLocationForm && (
-              <div className="bg-white p-6 rounded-lg shadow mb-4">
-                <h3 className="text-lg font-medium mb-4">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-4 border border-gray-200 dark:border-gray-700 transition-colors">
+                <h3 className="text-lg font-medium mb-4 text-gray-900 dark:text-white">
                   {editingLocation ? 'Edit Location' : 'New Location'}
                 </h3>
                 <form onSubmit={handleLocationSubmit}>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Warehouse</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Warehouse</label>
                       <select
                         name="warehouseId"
                         required
                         defaultValue={editingLocation?.warehouseId}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 transition-colors"
                       >
                         <option value="">Select Warehouse</option>
                         {warehouses.map((w) => (
@@ -351,29 +351,29 @@ export default function SettingsPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Name</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
                       <input
                         type="text"
                         name="name"
                         required
                         defaultValue={editingLocation?.name}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 transition-colors"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Short Code</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Short Code</label>
                       <input
                         type="text"
                         name="shortCode"
                         required
                         defaultValue={editingLocation?.shortCode}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 transition-colors"
                       />
                     </div>
                     <div className="flex space-x-2">
                       <button
                         type="submit"
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                        className="px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-md hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors"
                       >
                         Save
                       </button>
@@ -383,7 +383,7 @@ export default function SettingsPage() {
                           setShowLocationForm(false)
                           setEditingLocation(null)
                         }}
-                        className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                        className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                       >
                         Cancel
                       </button>
@@ -393,21 +393,21 @@ export default function SettingsPage() {
               </div>
             )}
 
-            <div className="bg-white shadow overflow-hidden sm:rounded-md">
-              <ul className="divide-y divide-gray-200">
+            <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md border border-gray-200 dark:border-gray-700 transition-colors">
+              <ul className="divide-y divide-gray-200 dark:divide-gray-700">
                 {locations.map((location) => (
-                  <li key={location.id}>
+                  <li key={location.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                     <div className="px-4 py-4 sm:px-6 flex justify-between items-center">
                       <div>
                         <div className="flex items-center">
-                          <p className="text-sm font-medium text-indigo-600 truncate">
+                          <p className="text-sm font-medium text-primary-600 dark:text-primary-400 truncate">
                             {location.name}
                           </p>
-                          <span className="ml-2 text-sm text-gray-500">
+                          <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
                             ({location.shortCode})
                           </span>
                         </div>
-                        <p className="mt-1 text-sm text-gray-500">
+                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                           Warehouse: {location.warehouse.name} ({location.warehouse.shortCode})
                         </p>
                       </div>
@@ -417,13 +417,13 @@ export default function SettingsPage() {
                             setEditingLocation(location)
                             setShowLocationForm(true)
                           }}
-                          className="text-indigo-600 hover:text-indigo-900"
+                          className="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 transition-colors"
                         >
                           Edit
                         </button>
                         <button
                           onClick={() => handleDeleteLocation(location.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition-colors"
                         >
                           Delete
                         </button>
