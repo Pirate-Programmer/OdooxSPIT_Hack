@@ -97,13 +97,13 @@ export default function ReceiptsPage() {
   const getStatusColor = (status: MoveStatus) => {
     switch (status) {
       case MoveStatus.DRAFT:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
       case MoveStatus.READY:
-        return 'bg-blue-100 text-blue-800'
+        return 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300'
       case MoveStatus.DONE:
-        return 'bg-green-100 text-green-800'
+        return 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300'
       default:
-        return 'bg-gray-100 text-gray-800'
+        return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
     }
   }
 
@@ -116,7 +116,7 @@ export default function ReceiptsPage() {
   if (loading) {
     return (
       <Layout>
-        <div className="text-center py-12">Loading...</div>
+        <div className="text-center py-12 text-gray-900 dark:text-gray-100">Loading...</div>
       </Layout>
     )
   }
@@ -125,40 +125,40 @@ export default function ReceiptsPage() {
     <Layout>
       <div className="px-4 py-6 sm:px-0">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Receipts</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Receipts</h1>
           <div className="flex space-x-4">
             <input
               type="text"
               placeholder="Search by Reference or Contact..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-md focus:outline-none focus:ring-primary-500 focus:border-primary-500 transition-colors"
             />
-            <div className="flex border border-gray-300 rounded-md">
+            <div className="flex border border-gray-300 dark:border-gray-600 rounded-md">
               <button
                 onClick={() => setViewMode('list')}
-                className={`px-4 py-2 ${
+                className={`px-4 py-2 rounded-l-md transition-colors ${
                   viewMode === 'list'
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
-                } rounded-l-md`}
+                    ? 'bg-primary-600 dark:bg-primary-500 text-white'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                }`}
               >
                 List
               </button>
               <button
                 onClick={() => setViewMode('kanban')}
-                className={`px-4 py-2 ${
+                className={`px-4 py-2 rounded-r-md transition-colors ${
                   viewMode === 'kanban'
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
-                } rounded-r-md`}
+                    ? 'bg-primary-600 dark:bg-primary-500 text-white'
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                }`}
               >
                 Kanban
               </button>
             </div>
             <button
               onClick={() => router.push('/receipts/new')}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+              className="px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-md hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors"
             >
               New Receipt
             </button>
@@ -166,42 +166,42 @@ export default function ReceiptsPage() {
         </div>
 
         {viewMode === 'list' ? (
-          <div className="bg-white shadow overflow-hidden sm:rounded-md">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+          <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md border border-gray-200 dark:border-gray-700 transition-colors">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Reference
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Contact
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Schedule Date
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {receipts.map((receipt) => (
-                  <tr key={receipt.id}>
+                  <tr key={receipt.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
                         onClick={() => router.push(`/receipts/${receipt.id}`)}
-                        className="text-sm font-medium text-indigo-600 hover:text-indigo-900"
+                        className="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 transition-colors"
                       >
                         {receipt.reference}
                       </button>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                       {receipt.contact || '-'}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                       {receipt.scheduleDate
                         ? new Date(receipt.scheduleDate).toLocaleDateString()
                         : '-'}
@@ -218,7 +218,7 @@ export default function ReceiptsPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                       <button
                         onClick={() => router.push(`/receipts/${receipt.id}`)}
-                        className="text-indigo-600 hover:text-indigo-900"
+                        className="text-primary-600 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 transition-colors"
                       >
                         View
                       </button>
@@ -226,13 +226,13 @@ export default function ReceiptsPage() {
                         <>
                           <button
                             onClick={() => handleStatusChange(receipt.id, MoveStatus.READY)}
-                            className="text-blue-600 hover:text-blue-900"
+                            className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 transition-colors"
                           >
                             TODO
                           </button>
                           <button
                             onClick={() => handleDelete(receipt.id)}
-                            className="text-red-600 hover:text-red-900"
+                            className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 transition-colors"
                           >
                             Delete
                           </button>
@@ -241,7 +241,7 @@ export default function ReceiptsPage() {
                       {receipt.status === MoveStatus.READY && (
                         <button
                           onClick={() => handleStatusChange(receipt.id, MoveStatus.DONE)}
-                          className="text-green-600 hover:text-green-900"
+                          className="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300 transition-colors"
                         >
                           Validate
                         </button>
@@ -249,7 +249,7 @@ export default function ReceiptsPage() {
                       {receipt.status === MoveStatus.DONE && (
                         <button
                           onClick={() => window.print()}
-                          className="text-gray-600 hover:text-gray-900"
+                          className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300 transition-colors"
                         >
                           Print
                         </button>
@@ -263,25 +263,25 @@ export default function ReceiptsPage() {
         ) : (
           <div className="grid grid-cols-3 gap-4">
             {Object.entries(groupedByStatus).map(([status, statusReceipts]) => (
-              <div key={status} className="bg-gray-50 rounded-lg p-4">
-                <h3 className="font-medium text-gray-900 mb-4">
+              <div key={status} className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 transition-colors">
+                <h3 className="font-medium text-gray-900 dark:text-white mb-4">
                   {status} ({statusReceipts.length})
                 </h3>
                 <div className="space-y-2">
                   {statusReceipts.map((receipt) => (
                     <div
                       key={receipt.id}
-                      className="bg-white p-4 rounded shadow cursor-pointer hover:shadow-md"
+                      className="bg-white dark:bg-gray-700 p-4 rounded shadow cursor-pointer hover:shadow-md transition-colors"
                       onClick={() => router.push(`/receipts/${receipt.id}`)}
                     >
-                      <div className="font-medium text-sm text-indigo-600">
+                      <div className="font-medium text-sm text-primary-600 dark:text-primary-400">
                         {receipt.reference}
                       </div>
                       {receipt.contact && (
-                        <div className="text-xs text-gray-500 mt-1">{receipt.contact}</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{receipt.contact}</div>
                       )}
                       {receipt.scheduleDate && (
-                        <div className="text-xs text-gray-500">
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
                           {new Date(receipt.scheduleDate).toLocaleDateString()}
                         </div>
                       )}
@@ -292,7 +292,7 @@ export default function ReceiptsPage() {
                               e.stopPropagation()
                               handleStatusChange(receipt.id, MoveStatus.READY)
                             }}
-                            className="text-xs px-2 py-1 bg-blue-600 text-white rounded"
+                            className="text-xs px-2 py-1 bg-blue-600 dark:bg-blue-500 text-white rounded hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
                           >
                             TODO
                           </button>
@@ -303,7 +303,7 @@ export default function ReceiptsPage() {
                               e.stopPropagation()
                               handleStatusChange(receipt.id, MoveStatus.DONE)
                             }}
-                            className="text-xs px-2 py-1 bg-green-600 text-white rounded"
+                            className="text-xs px-2 py-1 bg-green-600 dark:bg-green-500 text-white rounded hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
                           >
                             Validate
                           </button>

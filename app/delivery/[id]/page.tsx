@@ -260,7 +260,7 @@ export default function DeliveryFormPage() {
   if (loading) {
     return (
       <Layout>
-        <div className="text-center py-12">Loading...</div>
+        <div className="text-center py-12 text-gray-900 dark:text-gray-100">Loading...</div>
       </Layout>
     )
   }
@@ -269,12 +269,12 @@ export default function DeliveryFormPage() {
     <Layout>
       <div className="px-4 py-6 sm:px-0">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             {isNew ? 'New Delivery' : `Delivery: ${delivery?.reference}`}
           </h1>
           <button
             onClick={() => router.push('/delivery')}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
           >
             Back to List
           </button>
@@ -282,11 +282,11 @@ export default function DeliveryFormPage() {
 
         {delivery && (
           <div className="mb-4 flex items-center space-x-4">
-            <span className="text-sm text-gray-600">Status: {delivery.status}</span>
+            <span className="text-sm text-gray-600 dark:text-gray-400">Status: {delivery.status}</span>
             {delivery.status === MoveStatus.READY && (
               <button
                 onClick={() => handleStatusChange(MoveStatus.DONE)}
-                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                className="px-4 py-2 bg-green-600 dark:bg-green-500 text-white rounded-md hover:bg-green-700 dark:hover:bg-green-600 transition-colors"
               >
                 Validate (Move to Done)
               </button>
@@ -294,7 +294,7 @@ export default function DeliveryFormPage() {
             {delivery.status === MoveStatus.DONE && (
               <button
                 onClick={() => window.print()}
-                className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
+                className="px-4 py-2 bg-gray-600 dark:bg-gray-500 text-white rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
               >
                 Print
               </button>
@@ -302,58 +302,58 @@ export default function DeliveryFormPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 border border-gray-200 dark:border-gray-700 transition-colors">
           <div className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Reference</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Reference</label>
                 <input
                   type="text"
                   value={delivery?.reference || 'Auto-generated'}
                   disabled
-                  className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm"
+                  className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm transition-colors"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Responsible</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Responsible</label>
                 <input
                   type="text"
                   value={delivery?.responsible?.loginId || 'Current user'}
                   disabled
-                  className="mt-1 block w-full rounded-md border-gray-300 bg-gray-50 shadow-sm"
+                  className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm transition-colors"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Delivery Address</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Delivery Address</label>
                 <input
                   type="text"
                   value={formData.contact}
                   onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 transition-colors"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Schedule Date</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Schedule Date</label>
                 <input
                   type="date"
                   value={formData.scheduleDate}
                   onChange={(e) => setFormData({ ...formData, scheduleDate: e.target.value })}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 transition-colors"
                 />
               </div>
             </div>
 
             {isNew && (
               <div>
-                <label className="block text-sm font-medium text-gray-700">Warehouse</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Warehouse</label>
                 <select
                   value={formData.warehouseId}
                   onChange={(e) => handleWarehouseChange(e.target.value)}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 transition-colors"
                 >
                   <option value="">Select Warehouse</option>
                   {warehouses.map((w) => (
@@ -367,12 +367,12 @@ export default function DeliveryFormPage() {
 
             <div>
               <div className="flex justify-between items-center mb-4">
-                <label className="block text-sm font-medium text-gray-700">Products</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Products</label>
                 {isNew || delivery?.status === MoveStatus.DRAFT ? (
                   <button
                     type="button"
                     onClick={addMoveLine}
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                    className="px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-md hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors"
                   >
                     Add Product
                   </button>
@@ -386,24 +386,26 @@ export default function DeliveryFormPage() {
                   return (
                     <div
                       key={index}
-                      className={`p-4 border-2 rounded-md ${
-                        isOutOfStock ? 'border-red-500 bg-red-50' : 'border-gray-200'
+                      className={`p-4 border-2 rounded-md transition-colors ${
+                        isOutOfStock 
+                          ? 'border-red-500 dark:border-red-600 bg-red-50 dark:bg-red-900/20' 
+                          : 'border-gray-200 dark:border-gray-600'
                       }`}
                     >
                       {isOutOfStock && (
-                        <div className="mb-2 text-sm text-red-600 font-medium">
+                        <div className="mb-2 text-sm text-red-600 dark:text-red-400 font-medium">
                           ⚠ Stock Alert: Not enough stock available (Available: {stockCheck.available}, Required: {stockCheck.required})
                         </div>
                       )}
                       <div className="flex space-x-4 items-end">
                         <div className="flex-1">
-                          <label className="block text-sm font-medium text-gray-700">Product</label>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Product</label>
                           <select
                             value={line.productId}
                             onChange={(e) => updateMoveLine(index, 'productId', e.target.value)}
                             required
                             disabled={!isNew && delivery?.status !== MoveStatus.DRAFT}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                           >
                             <option value="">Select Product</option>
                             {products.map((p) => (
@@ -414,13 +416,13 @@ export default function DeliveryFormPage() {
                           </select>
                         </div>
                         <div className="flex-1">
-                          <label className="block text-sm font-medium text-gray-700">Location</label>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
                           <select
                             value={line.fromLocationId}
                             onChange={(e) => updateMoveLine(index, 'fromLocationId', e.target.value)}
                             required
                             disabled={!isNew && delivery?.status !== MoveStatus.DRAFT}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                           >
                             <option value="">Select Location</option>
                             {locations.map((l) => (
@@ -431,7 +433,7 @@ export default function DeliveryFormPage() {
                           </select>
                         </div>
                         <div className="w-32">
-                          <label className="block text-sm font-medium text-gray-700">Quantity</label>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Quantity</label>
                           <input
                             type="number"
                             value={line.quantity}
@@ -442,14 +444,14 @@ export default function DeliveryFormPage() {
                             min="0"
                             step="0.01"
                             disabled={!isNew && delivery?.status !== MoveStatus.DRAFT}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            className="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm focus:border-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                           />
                         </div>
                         {(isNew || delivery?.status === MoveStatus.DRAFT) && (
                           <button
                             type="button"
                             onClick={() => removeMoveLine(index)}
-                            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                            className="px-4 py-2 bg-red-600 dark:bg-red-500 text-white rounded-md hover:bg-red-700 dark:hover:bg-red-600 transition-colors"
                           >
                             Remove
                           </button>
@@ -466,14 +468,14 @@ export default function DeliveryFormPage() {
                 <button
                   type="button"
                   onClick={() => router.push('/delivery')}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50"
+                  className="px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-md hover:bg-primary-700 dark:hover:bg-primary-600 disabled:opacity-50 transition-colors"
                 >
                   {saving ? 'Saving...' : 'Save'}
                 </button>
